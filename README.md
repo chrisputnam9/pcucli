@@ -6,7 +6,7 @@
 https://raw.githubusercontent.com/chrisputnam9/pcucli/master/dist/pcucli
 
 ### Latest Version Hash (md5):
-f859d2f1d1df80440cfcc3df33282d4e
+944d44564b5f85c9f320cb18bb17b9f8
 
 ## Install PCUCLI
 1. Make sure you have PHP, or [install it if not](http://php.net/manual/en/install.php)
@@ -53,11 +53,10 @@ If an update is available, you can run the following to install the update:
     ----------------------------------------------------------------------------------------------------------------------
     | OPTION                 | TYPE                              | INFO                                                  |
     ----------------------------------------------------------------------------------------------------------------------
-    | ----WSC--              | (boolean)                         | HJSON Data for config file                            |
-    | --allow-root           | (boolean)                         | OK to run as root                                     |
+    | --allow-root           | (boolean)                         | OK to run as root without warning                     |
     | --api-cache            | (boolean)                         | Whether to cache results                              |
     | --ssl-check            | (boolean)                         | Whether to check SSL certificates with curl           |
-    | --stamp-lines          | (boolean)                         | Stamp output lines                                    |
+    | --stamp-lines          | (boolean)                         | Stamp / prefix output lines with the date and time    |
     | --verbose              | (boolean)                         | Enable verbose output                                 |
     ----------------------------------------------------------------------------------------------------------------------
     Use no- to set boolean option to false - eg. --no-stamp-lines

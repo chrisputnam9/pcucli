@@ -42,7 +42,7 @@ class Pcucli extends Console_Abstract
 
     // Constants
     public const APP_URL = "https://app.clickup.com";
-    public const API_URL = "https://api.clickup.com/v2";
+    public const API_URL = "https://api.clickup.com/api/v2";
 
     // Config Variables
     protected $__api_key = ["ClickUp API key", "string"];
@@ -120,13 +120,13 @@ class Pcucli extends Console_Abstract
 
         if ($output)
         {
-            if (empty($body->data))
+            if (empty($body))
             {
                 $this->output('No data in response.');
             }
             else
             {
-                $this->outputAPIResults($body->data, $output);
+                $this->output($body);
             }
         }
 
@@ -180,11 +180,11 @@ class Pcucli extends Console_Abstract
             }
 
             // Wrap in data key if needed
-            if (!isset($body->data))
+            if (!isset($body))
             {
                 $data = $body;
                 $body = new StdClass();
-                $body->data = $data;
+                $body = $data;
             }
             $body_json = json_encode($body);
 
@@ -200,13 +200,13 @@ class Pcucli extends Console_Abstract
 
             if ($output)
             {
-                if (empty($body->data))
+                if (empty($body))
                 {
                     $this->output('No data in response.');
                 }
                 else
                 {
-                    $this->outputAPIResults($body->data, $output);
+                    $this->output($body);
                 }
             }
 
@@ -238,7 +238,7 @@ class Pcucli extends Console_Abstract
             CURLOPT_HTTPHEADER => array(
                 'Accept: application/json',
                 'Content-Type: application/json',
-                'Authorization: Bearer ' . $this->api_key,
+                'Authorization: ' . $this->api_key,
             ),
         ]);
 
@@ -280,100 +280,6 @@ class Pcucli extends Console_Abstract
         }
 
         return "NO LINK";
-    }
-
-    /**
-     * Output API Results with links
-     */
-    public function outputAPIResults ($body, $output=true)
-    {
-        if (is_string($output))
-        {
-            $output = trim($output);
-        }
-
-        if ($output == false or $output === "false") return;
-
-        if (is_string($output))
-        {
-            $output = explode(",", $output);
-            $output = array_map('trim', $output);
-        }
-        else
-        {
-            $output = [];
-        }
-
-        if (!is_array($body))
-        {
-            $body = [$body];
-        }
-
-        foreach ($body as $result)
-        {
-            // todo remove if not needed
-            //$type = $this->getResultType($result);
-            //$name_field = isset($this->name_field[$type]) ? $this->name_field[$type] : "name";
-            $name_field = "name";
-
-            $name = "";
-            if (isset($result->$name_field))
-            {
-                $name = $result->$name_field;
-            }
-            elseif (isset($result->name))
-            {
-                $name = $result->name;
-            }
-            elseif (isset($result->content))
-            {
-                $name = $result->content;
-            }
-            else
-            {
-                $this->warn("Unable to find name field on this content type");
-                $this->output($result);
-            }
-
-            $link = $this->getResultLink($result);
-
-            $max_width = $this->getTerminalWidth() - (strlen($link) + 4);
-
-            $name = $this->parseHtmlForTerminal($name);
-            $name = trim($name);
-            if (strlen($name) > $max_width)
-            {
-                $name = substr($name, 0, $max_width-3) . '...';
-            }
-            $name = str_pad($name, $max_width);
-
-            // todo implement by type
-            $id_output = "-"; //str_pad("(" . $result->id . ")", 15);
-
-            // $this->output("$id_output $name [$link]");
-            $this->output("$name [$link]");
-
-            foreach ($output as $output_field)
-            {
-                if ($output_field == '*')
-                {
-                    foreach ($result as $field => $value)
-                    {
-                        $value = $this->stringify($value);
-                        $this->output(" -- $field: $value");
-                    }
-                }
-                else
-                {
-                    $value = isset($result->$output_field) ? $result->$output_field : "";
-                    $value = $this->stringify($value);
-                    $this->output(" -- $output_field: $value");
-                }
-            }
-        }
-
-        $this->hr();
-        $this->output("Total Results: " . count($body));
     }
 
     /**
