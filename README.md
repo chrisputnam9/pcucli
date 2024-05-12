@@ -6,7 +6,7 @@
 https://raw.githubusercontent.com/chrisputnam9/pcucli/master/dist/pcucli
 
 ### Latest Version Hash (md5):
-TODO:FILL_IN_HASH_WHEN_PACKAGED
+f859d2f1d1df80440cfcc3df33282d4e
 
 ## Install PCUCLI
 1. Make sure you have PHP, or [install it if not](http://php.net/manual/en/install.php)
