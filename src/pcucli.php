@@ -18,7 +18,7 @@ class Pcucli extends Console_Abstract
      *
      * @var string
      */
-    public const VERSION = "1.0.0";
+    public const VERSION = "1.1.0";
 
     /**
      * Tool shortname - used as name of configurationd directory.
@@ -31,6 +31,7 @@ class Pcucli extends Console_Abstract
      * Callable Methods
      */
     protected static $METHODS = [
+		'spam_list',
         'get',
         'post',
     ];
@@ -64,6 +65,29 @@ class Pcucli extends Console_Abstract
      * @api
      */
     public $update_version_url = "https://raw.githubusercontent.com/chrisputnam9/pcucli/master/README.md";
+
+    protected $___spam_list = [
+        "Test a list by adding X generic todos to it",
+        ["List ID", "int"],
+        ["Number of todos to add", "int"],
+    ];
+	public function spam_list($list_id, $number_of_todos=1)
+    {
+		$this->outputProgress(0, $number_of_todos, "todos");
+		for ($i=1; $i<=$number_of_todos; $i++) {
+			$created_at = date("Y-m-d H:i:s");
+			$this->post('list/'.$list_id.'/task', [
+				'name' => "Test Task $i - $created_at",
+				'content' => "Test Task Content for task $i created at $created_at",
+			], false);
+			$this->outputProgress($i, $number_of_todos, "todos created");
+			// For rate limit of 100 requests per minute
+			// => 1 request every 0.6 seconds
+			// => sleep 0.6 seconds = 600000 microseconds between each request
+			usleep(600000);
+		}
+		$this->output("Done!");
+	}
 
     protected $___get = [
         "GET data from the ClickUp API.  Refer to https://clickup.com/api/",
