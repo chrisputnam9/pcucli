@@ -2,11 +2,11 @@
 
 ## Latest Version
 
-### Download Latest Version (1.1.0):
+### Download Latest Version (1.2.0):
 https://raw.githubusercontent.com/chrisputnam9/pcucli/master/dist/pcucli
 
 ### Latest Version Hash (md5):
-b74d6ba2286604c8a45416b08f01fc9f
+86e59db73264c9c408a41138ae7edb7a
 
 ## Install PCUCLI
 1. Make sure you have PHP, or [install it if not](http://php.net/manual/en/install.php)
